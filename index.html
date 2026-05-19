@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Checklist Mantenimiento Frenos MX32 / MX40</title>
+
+<style>
+:root{
+  --azul:#003b71;
+  --azul2:#005a9c;
+  --verde:#1f8f4d;
+  --rojo:#c62828;
+  --amarillo:#f9a825;
+  --gris:#f4f6f8;
+  --borde:#d6dbe1;
+}
+body{
+  font-family: Arial, sans-serif;
+  background: var(--gris);
+  margin: 0;
+  color: #222;
+}
+header{
+  background: linear-gradient(90deg,var(--azul),var(--azul2));
+  color: white;
+  padding: 18px 24px;
+}
+header h1{
+  margin: 0;
+  font-size: 24px;
+}
+header p{
+  margin: 6px 0 0;
+  font-size: 13px;
+}
+.container{
+  max-width: 1250px;
+  margin: 20px auto;
+  padding: 0 16px 40px;
+}
+.card{
+  background: white;
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 18px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.08);
+}
+h2{
+  color: var(--azul);
+  margin-top: 0;
+  border-bottom: 2px solid #eef2f6;
+  padding-bottom: 8px;
+}
+.grid{
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 14px;
+}
+label{
+  font-weight: bold;
+  font-size: 13px;
+  display: block;
+  margin-bottom: 5px;
+}
+input, select, textarea{
+  width: 100%;
+  padding: 9px;
+  border: 1px solid var(--borde);
+  border-radius: 7px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+textarea{
+  min-height: 65px;
+}
+table{
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+th{
+  background: var(--azul);
+  color: white;
+  padding: 9px;
+  text-align: left;
+}
+td{
+  border: 1px solid var(--borde);
+  padding: 8px;
+  vertical-align: top;
+}
+.status-ok{background:#e8f5e9;}
+.status-no{background:#ffebee;}
+.status-na{background:#f5f5f5;}
+.critico{
+  color: var(--rojo);
+  font-weight: bold;
+}
+.alto{
+  color: #e65100;
+  font-weight: bold;
+}
+.medio{
+  color: #8a6d00;
+  font-weight: bold;
+}
+.bajo{
+  color: var(--verde);
+  font-weight: bold;
+}
+.alerta{
+  padding: 12px;
+  border-radius: 8px;
+  background: #fff4e5;
+  border: 1px solid #ffd180;
+  margin-top: 12px;
+  font-weight: bold;
+}
+.resumen{
+  display:grid;
+  grid-template-columns: repeat(4,1fr);
+  gap:12px;
+}
+.box{
+  border:1px solid var(--borde);
+  border-radius:10px;
+  padding:12px;
+  background:#fafafa;
+}
+.box strong{
+  display:block;
+  font-size:20px;
+  margin-top:4px;
+}
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:flex-end;
+}
+button{
+  border:0;
+  border-radius:8px;
+  padding:12px 18px;
+  cursor:pointer;
+  font-weight:bold;
+}
+.primary{background:var(--azul);color:white;}
+.secondary{background:#e9edf2;color:#222;}
+.danger{background:var(--rojo);color:white;}
+.signature{
+  height:90px;
+  border:2px dashed #999;
+  border-radius:8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#777;
+  background:#fafafa;
+}
+.small{
+  font-size:12px;
+  color:#555;
+}
+.photoBox{
+  margin-top:8px;
+}
+.photoBox img{
+  max-width:180px;
+  max-height:130px;
+  border:1px solid #ccc;
+  border-radius:6px;
+  display:block;
+  margin-top:6px;
+}
+.photoGrid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+.photoCard{
+  border:1px solid var(--borde);
+  border-radius:10px;
+  padding:12px;
+  background:#fafafa;
+}
+@media(max-width:900px){
+  .grid,.resumen,.photoGrid{grid-template-columns:1fr;}
+  table{font-size:12px;}
+}
+@media print{
+  body{background:white;}
+  header{background:#003b71 !important;}
+  .card{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid;}
+  .actions,.no-print,input[type=file]{display:none;}
+  .photoBox img{max-width:220px;max-height:170px;}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>Checklist de Mantenimiento de Frenos MX32 / MX40</h1>
+  <p>Formulario técnico con criterios de aceptación, criticidad, mediciones y evidencias</p>
+</header>
+
+<div class="container">
+
+<section class="card">
+<h2>1. Datos generales</h2>
+<div class="grid">
+  <div><label>Cliente *</label><input id="cliente" required></div>
+  <div><label>Ubicación *</label><input id="ubicacion" required></div>
+  <div><label>No. de elevador *</label><input id="elevador" required></div>
+  <div><label>Modelo *</label><select id="modelo"><option>MX32</option><option>MX40</option><option>MX32UR</option><option>MX40UR</option></select></div>
+  <div><label>No. OT</label><input id="ot"></div>
+  <div><label>Técnico *</label><input id="tecnico" required></div>
+  <div><label>Fecha *</label><input id="fecha" type="date" required></div>
+  <div><label>Hora inicio</label><input type="time"></div>
+  <div><label>Hora fin</label><input type="time"></div>
+</div>
+</section>
+
+<section class="card">
+<h2>2. Resumen automático</h2>
+<div class="resumen">
+  <div class="box">Total OK<strong id="totalOK">0</strong></div>
+  <div class="box">Total NO OK<strong id="totalNO">0</strong></div>
+  <div class="box">Total N/A<strong id="totalNA">0</strong></div>
+  <div class="box">Resultado sugerido<strong id="resultadoAuto">Pendiente</strong></div>
+</div>
+<div id="alertaCritica" class="alerta no-print" style="display:none;"></div>
+</section>
+
+<section class="card">
+<h2>3. Seguridad previa</h2>
+<table>
+<thead>
+<tr><th>Actividad</th><th>Criterio de aceptación</th><th>Criticidad</th><th>Resultado</th><th>Observaciones</th></tr>
+</thead>
+<tbody>
+<tr><td>LOTO aplicado</td><td>Bloqueo y etiquetado confirmado antes de intervenir</td><td class="critico">Crítica</td><td><select onchange="colorEstado(this)"><option></option><option>OK</option><option>NO OK</option><option>N/A</option></select></td><td><input></td></tr>
+<tr><td>Ausencia de voltaje</td><td>0 V confirmado con instrumento adecuado</td><td class="critico">Crítica</td><td><select onchange="colorEstado(this)"><option></option><option>OK</option><option>NO OK</option><option>N/A</option></select></td><td><input></td></tr>
+<tr><td>Área delimitada</td><td>Barreras y señalización colocadas</td><td class="alto">Alta</td><td><select onchange="colorEstado(this)"><option></option><option>OK</option><option>NO OK</option><option>N/A</option></select></td><td><input></td></tr>
+<tr><td>Contrapeso seguro</td><td>Condición segura antes de ajustes del freno</td><td class="critico">Crítica</td><td><select onchange="colorEstado(this)"><option></option><option>OK</option><option>NO OK</option><option>N/A</option></select></td><td><input></td></tr>
+<tr><td>Uso de EPP</td><td>Guantes, lentes, casco y protección requerida</td><td class="alto">Alta</td><td><select onchange="colorEstado(this)"><option></option><option>OK</option><option>NO OK</option><option>N/A</option></select></td><td><input></td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="card">
+<h2>4. Inspección del freno</h2>
+<table>
+<thead>
+<tr><th>Punto de inspección</th><th>Criterio de aceptación</th><th>Criticidad</th><th>Resultado</th><th>Medición / evidencia</th><th>Acción correctiva</th></tr>
+</thead>
+<tbody>
+<tr><td>Fugas hidráulicas</td><td>No debe existir fuga visible</td><td class="critico">Crítica</td><td><select onchange="colorEstado(this)"><option></option><option>OK</option><option>NO OK</option><option>N/A</option></select></td><td><input type="file" accept="image/*" capture="environment" onchange="previewImagen(this)"><div class="photoBox"></div></td><td><input></td></tr>
+<tr><td>Pasta / zapata de freno</td><td>Espesor mayor a 3 mm</td><td class="critico">Crítica</td><td><select onchange="colorEstado(this);evaluarCriticos()"><option></option><option>OK</option><option>NO OK</option><option>N/A</option></select></td><td><input id="pasta" type="number" step="0.01" placeholder="mm" oninput="evaluarCriticos()"></td><td><input></td></tr>
+<tr><td>Desgaste uniforme</td><td>Sin desgaste irregular visible</td><td class="alto">Alta</td><td><select onchange="colorEstado(this)"><option></option><option>OK</option><option>NO OK</option><option>N/A</option></select></td><td><input></td><td><input></td></tr>
+<tr><td>Contaminación aceite/grasa</td><td>No permitida sobre pasta o superficie de frenado</td><td class="critico">Crítica</td><td><select onchange="colorEstado(this)"><option></option><option>OK</option><option>NO OK</option><option>N/A</option></select></td><td><input type="file" accept="image/*" capture="environment" onchange="previewImagen(this)"><div class="photoBox"></div></td><td><input></td></tr>
+<tr><td>Grietas / fracturas / cristalización</td><td>No permitidas</td><td class="critico">Crítica</td><td><select onchange="colorEstado(this)"><option></option><option>OK</option><option>NO OK</option><option>N/A</option></select></td><td><input type="file" accept="image/*" capture="environment" onchange="previewImagen(this)"><div class="photoBox"></div></td><td><input></td></tr>
+<tr><td>Ruido metálico</td><td>No permitido durante operación</td><td class="alto">Alta</td><td><select onchange="colorEstado(this)"><option></option><option>OK</option><option>NO OK</option><option>N/A</option></select></td><td><input></td><td><input></td></tr>
+<tr><td>Vibración</td><td>No debe presentar vibración anormal</td><td class="medio">Media</td><td><select onchange="colorEstado(this)"><option></option><option>OK</option><option>NO OK</option><option>N/A</option></select></td><td><input></td><td><input></td></tr>
+<tr><td>Temperatura del freno</td><td>Sin sobrecalentamiento u olor a quemado</td><td class="alto">Alta</td><td><select onchange="colorEstado(this)"><option></option><option>OK</option><option>NO OK</option><option>N/A</option></select></td><td><input></td><td><input></td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="card">
+<h2>5. Air gap y ajuste</h2>
+<table>
+<thead>
+<tr><th>Punto</th><th>Criterio de aceptación</th><th>Criticidad</th><th>Resultado</th><th>Medición</th><th>Acción correctiva</th></tr>
+</thead>
+<tbody>
+<tr><td>Air gap lado A</td><td>Dentro de especificación aplicable</td><td class="critico">Crítica</td><td><select onchange="colorEstado(this)"><option></option><option>OK</option><option>NO OK</option><option>N/A</option></select></td><td><input id="gapA" type="number" step="0.01" placeholder="mm" oninput="calcularGap()"></td><td><input></td></tr>
+<tr><td>Air gap lado B</td><td>Dentro de especificación aplicable</td><td class="critico">Crítica</td><td><select onchange="colorEstado(this)"><option></option><option>OK</option><option>NO OK</option><option>N/A</option></select></td><td><input id="gapB" type="number" step="0.01" placeholder="mm" oninput="calcularGap()"></td><td><input></td></tr>
+<tr><td>Diferencia de air gap</td><td>Máximo recomendado ≤ 0.05 mm</td><td class="critico">Crítica</td><td><select id="gapResultado" onchange="colorEstado(this)"><option></option><option>OK</option><option>NO OK</option><option>N/A</option></select></td><td><input id="gapDiff" readonly placeholder="Automático"></td><td><input></td></tr>
+<tr><td>Arrastre del freno</td><td>No permitido</td><td class="critico">Crítica</td><td><select onchange="colorEstado(this)"><option></option><option>OK</option><option>NO OK</option><option>N/A</option></select></td><td><input></td><td><input></td></tr>
+<tr><td>Liberación uniforme</td><td>El freno debe liberar completo y sin contacto residual</td><td class="critico">Crítica</td><td><select onchange="colorEstado(this)"><option></option><option>OK</option><option>NO OK</option><option>N/A</option></select></td><td><input></td><td><input></td></tr>
+<tr><td>Torque de freno</td><td>Según especificación KONE aplicable al equipo</td><td class="critico">Crítica</td><td><select onchange="colorEstado(this)"><option></option><option>OK</option><option>NO OK</option><option>N/A</option></select></td><td><input placeholder="Referencia / ajuste"></td><td><input></td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="card">
+<h2>6. Sensores, contactos y sistema hidráulico</h2>
+<table>
+<thead>
+<tr><th>Punto</th><th>Criterio de aceptación</th><th>Criticidad</th><th>Resultado</th><th>Evidencia / medición</th><th>Acción correctiva</th></tr>
+</thead>
+<tbody>
+<tr><td>Sensor de proximidad</td><td>Señal estable y repetitiva</td><td class="critico">Crítica</td><td><select onchange="colorEstado(this)"><option></option><option>OK</option><option>NO OK</option><option>N/A</option></select></td><td><input></td><td><input></td></tr>
+<tr><td>Contacto de freno</td><td>Activación consistente</td><td class="critico">Crítica</td><td><select onchange="colorEstado(this)"><option></option><option>OK</option><option>NO OK</option><option>N/A</option></select></td><td><input></td><td><input></td></tr>
+<tr><td>Cableado</td><td>Sin daño, falso contacto o calentamiento</td><td class="alto">Alta</td><td><select onchange="colorEstado(this)"><option></option><option>OK</option><option>NO OK</option><option>N/A</option></select></td><td><input type="file" accept="image/*" capture="environment" onchange="previewImagen(this)"><div class="photoBox"></div></td><td><input></td></tr>
+<tr><td>Aire en sistema hidráulico</td><td>No debe existir aire/burbujas</td><td class="critico">Crítica</td><td><select onchange="colorEstado(this)"><option></option><option>OK</option><option>NO OK</option><option>N/A</option></select></td><td><input></td><td><input></td></tr>
+<tr><td>Nivel de aceite</td><td>Dentro del rango requerido</td><td class="medio">Media</td><td><select onchange="colorEstado(this)"><option></option><option>OK</option><option>NO OK</option><option>N/A</option></select></td><td><input></td><td><input></td></tr>
+<tr><td>Condición del aceite</td><td>Limpio, sin contaminación visible</td><td class="medio">Media</td><td><select onchange="colorEstado(this)"><option></option><option>OK</option><option>NO OK</option><option>N/A</option></select></td><td><input></td><td><input></td></tr>
+</tbody>
+</table>
+</section>
+
+
+<section class="card">
+<h2>7. Evidencias fotográficas generales</h2>
+<div class="photoGrid">
+  <div class="photoCard">
+    <label>Foto general del freno</label>
+    <input type="file" accept="image/*" capture="environment" onchange="previewImagen(this)">
+    <div class="photoBox"></div>
+  </div>
+  <div class="photoCard">
+    <label>Foto de mediciones</label>
+    <input type="file" accept="image/*" capture="environment" onchange="previewImagen(this)">
+    <div class="photoBox"></div>
+  </div>
+  <div class="photoCard">
+    <label>Foto de daño / hallazgo</label>
+    <input type="file" accept="image/*" capture="environment" onchange="previewImagen(this)">
+    <div class="photoBox"></div>
+  </div>
+</div>
+</section>
+
+<section class="card">
+<h2>8. Pruebas funcionales</h2>
+<table>
+<thead>
+<tr><th>Prueba</th><th>Criterio de aceptación</th><th>Criticidad</th><th>Resultado</th><th>Observaciones</th></tr>
+</thead>
+<tbody>
+<tr><td>Liberación completa del freno</td><td>Operación uniforme</td><td class="critico">Crítica</td><td><select onchange="colorEstado(this)"><option></option><option>OK</option><option>NO OK</option><option>N/A</option></select></td><td><input></td></tr>
+<tr><td>Prueba de frenado</td><td>Elevador estable y sin deslizamiento</td><td class="critico">Crítica</td><td><select onchange="colorEstado(this)"><option></option><option>OK</option><option>NO OK</option><option>N/A</option></select></td><td><input></td></tr>
+<tr><td>Operación estable</td><td>Sin vibración ni comportamiento anormal</td><td class="alto">Alta</td><td><select onchange="colorEstado(this)"><option></option><option>OK</option><option>NO OK</option><option>N/A</option></select></td><td><input></td></tr>
+<tr><td>Temperatura posterior a prueba</td><td>Sin sobrecalentamiento</td><td class="alto">Alta</td><td><select onchange="colorEstado(this)"><option></option><option>OK</option><option>NO OK</option><option>N/A</option></select></td><td><input></td></tr>
+</tbody>
+</table>
+</section>
+
+<section class="card">
+<h2>9. Resultado final</h2>
+<div class="grid">
+  <div><label>Condición final *</label><select id="condicion"><option>Pendiente</option><option>Aprobado</option><option>Aprobado con observaciones</option><option>No aprobado</option><option>Requiere reparación inmediata</option></select></div>
+  <div><label>Criticidad final</label><select><option>Baja</option><option>Media</option><option>Alta</option><option>Crítica</option></select></div>
+  <div><label>¿Equipo apto para operación?</label><select><option>Pendiente</option><option>Sí</option><option>Sí con observaciones</option><option>No</option></select></div>
+</div>
+
+<label>Comentarios generales y acciones correctivas</label>
+<textarea></textarea>
+
+<br><br>
+<label>Nombre y firma del técnico</label>
+<div class="signature">Firma manual al imprimir / firma digital si se usa en tablet</div>
+</section>
+
+<section class="card no-print">
+<h2>10. Acciones</h2>
+<p class="small">Las imágenes se muestran como vista previa y saldrán al imprimir/guardar PDF. Por seguridad del navegador, las fotos no se guardan al cerrar la página.</p>
+<div class="actions">
+  <button class="secondary" onclick="guardarDatos()">Guardar datos</button>
+  <button class="secondary" onclick="cargarDatos()">Cargar datos guardados</button>
+  <button class="danger" onclick="limpiarDatos()">Limpiar</button>
+  <button class="primary" onclick="window.print()">Guardar PDF / Imprimir</button>
+</div>
+</section>
+
+</div>
+
+<script>
+document.getElementById("fecha").valueAsDate = new Date();
+
+function previewImagen(input){
+  const contenedor = input.parentElement.querySelector(".photoBox");
+  if(!contenedor) return;
+  contenedor.innerHTML = "";
+
+  const file = input.files && input.files[0];
+  if(!file) return;
+
+  if(!file.type.startsWith("image/")){
+    contenedor.innerHTML = "<small>Archivo no válido. Selecciona una imagen.</small>";
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function(e){
+    const img = document.createElement("img");
+    img.src = e.target.result;
+    img.alt = "Evidencia fotográfica";
+    contenedor.appendChild(img);
+  };
+  reader.readAsDataURL(file);
+}
+
+function colorEstado(sel){
+  const td = sel.parentElement;
+  td.classList.remove("status-ok","status-no","status-na");
+  if(sel.value==="OK") td.classList.add("status-ok");
+  if(sel.value==="NO OK") td.classList.add("status-no");
+  if(sel.value==="N/A") td.classList.add("status-na");
+  evaluarCriticos();
+  contarResultados();
+}
+
+function calcularGap(){
+  const a = parseFloat(document.getElementById("gapA").value);
+  const b = parseFloat(document.getElementById("gapB").value);
+  const diff = document.getElementById("gapDiff");
+  const res = document.getElementById("gapResultado");
+
+  if(!isNaN(a) && !isNaN(b)){
+    const d = Math.abs(a-b).toFixed(2);
+    diff.value = d + " mm";
+    if(parseFloat(d) <= 0.05){
+      res.value = "OK";
+    }else{
+      res.value = "NO OK";
+    }
+    colorEstado(res);
+  }
+  evaluarCriticos();
+}
+
+function evaluarCriticos(){
+  let mensajes = [];
+  const pasta = parseFloat(document.getElementById("pasta").value);
+  const gapText = document.getElementById("gapDiff").value.replace(" mm","");
+  const gap = parseFloat(gapText);
+
+  if(!isNaN(pasta) && pasta <= 3){
+    mensajes.push("CRÍTICO: espesor de pasta/zapata ≤ 3 mm. Requiere reemplazo.");
+  }
+  if(!isNaN(gap) && gap > 0.05){
+    mensajes.push("CRÍTICO: diferencia de air gap mayor a 0.05 mm. Requiere ajuste.");
+  }
+
+  document.querySelectorAll("select").forEach(s=>{
+    if(s.value==="NO OK"){
+      const row = s.closest("tr");
+      const crit = row ? row.cells[2]?.innerText : "";
+      if(crit && crit.toLowerCase().includes("crítica")){
+        mensajes.push("CRÍTICO: existe un punto crítico marcado como NO OK.");
+      }
+    }
+  });
+
+  const alerta = document.getElementById("alertaCritica");
+  const resultadoAuto = document.getElementById("resultadoAuto");
+
+  if(mensajes.length){
+    alerta.style.display = "block";
+    alerta.innerHTML = mensajes.map(m=>"<div class='critico'>• "+m+"</div>").join("");
+    resultadoAuto.innerText = "No aprobado";
+    resultadoAuto.style.color = "#c62828";
+  }else{
+    alerta.style.display = "none";
+    alerta.innerHTML = "";
+    resultadoAuto.innerText = "Aprobable";
+    resultadoAuto.style.color = "#1f8f4d";
+  }
+}
+
+function contarResultados(){
+  let ok=0,no=0,na=0;
+  document.querySelectorAll("select").forEach(s=>{
+    if(s.value==="OK") ok++;
+    if(s.value==="NO OK") no++;
+    if(s.value==="N/A") na++;
+  });
+  document.getElementById("totalOK").innerText = ok;
+  document.getElementById("totalNO").innerText = no;
+  document.getElementById("totalNA").innerText = na;
+}
+
+function guardarDatos(){
+  const datos = {};
+  document.querySelectorAll("input, select, textarea").forEach((el,i)=>{
+    if(el.type !== "file") datos[i] = el.value;
+  });
+  localStorage.setItem("checklist_frenos_mx", JSON.stringify(datos));
+  alert("Datos guardados en este dispositivo. Las imágenes no se guardan al cerrar.");
+}
+
+function cargarDatos(){
+  const datos = JSON.parse(localStorage.getItem("checklist_frenos_mx") || "{}");
+  document.querySelectorAll("input, select, textarea").forEach((el,i)=>{
+    if(el.type !== "file" && datos[i] !== undefined){
+      el.value = datos[i];
+      if(el.tagName === "SELECT") colorEstado(el);
+    }
+  });
+  calcularGap();
+  contarResultados();
+}
+
+function limpiarDatos(){
+  if(confirm("¿Borrar datos guardados y limpiar formulario?")){
+    localStorage.removeItem("checklist_frenos_mx");
+    location.reload();
+  }
+}
+
+contarResultados();
+</script>
+
+</body>
+</html>
